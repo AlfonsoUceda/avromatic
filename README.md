@@ -51,6 +51,7 @@ Avromatic.configure do |config|
   config.schema_store = AvroTurf::SchemaStore.new(path: 'avro/schemas')
   config.registry_url = Rails.configuration.x.avro_schema_registry_url
   config.build_messaging!
+end
 ```
 
 ### Models
@@ -81,9 +82,9 @@ are used to define validations on certain types of fields ([see below](#validati
 A model may be defined with both a key and a value schema:
 
 ```ruby
-class MyTopic
-  include Avromatic::Model.build(value_schema_name: :topic_value,
-                                 key_schema_name: :topic_key)
+class MyEvent
+  include Avromatic::Model.build(value_schema_name: :event_value,
+                                 key_schema_name: :event_key)
 end
 ```
 
@@ -156,7 +157,7 @@ A model instance can be created from an Avro-encoded value and an Avro-encoded
 optional key:
 
 ```ruby
-MyTopic.deserialize(message_key, message_value)
+MyEvent.deserialize(message_key, message_value)
 ```
 
 Or just a value if only one schema is used:
